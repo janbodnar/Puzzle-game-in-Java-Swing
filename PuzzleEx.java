@@ -30,6 +30,15 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+/**
+ * ZetCode's Java Swing tutorial
+ * 
+ * This program creates a Puzzle game. 
+ * 
+ * @author Jan Bodnar
+ * website zetcode.com
+ */
+
 class MyButton extends JButton {
 
     private boolean isLastButton;
