@@ -30,15 +30,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- * ZetCode's Java Swing tutorial
- * 
- * This program creates a Puzzle game. 
- * 
- * @author Jan Bodnar
- * website zetcode.com
- */
-
 class MyButton extends JButton {
 
     private boolean isLastButton;
@@ -91,15 +82,17 @@ public class PuzzleEx extends JFrame {
 
     private JPanel panel;
     private BufferedImage source;
-    private ArrayList<MyButton> buttons;
-
-    ArrayList<Point> solution = new ArrayList();
-
+    private BufferedImage resized;    
     private Image image;
     private MyButton lastButton;
-    private int width, height;
+    private int width, height;    
+    
+    private List<MyButton> buttons;
+    private List<Point> solution;
+
+    private final int NUMBER_OF_BUTTONS = 12;
     private final int DESIRED_WIDTH = 300;
-    private BufferedImage resized;
+
 
     public PuzzleEx() {
 
@@ -108,6 +101,8 @@ public class PuzzleEx extends JFrame {
 
     private void initUI() {
 
+        solution = new ArrayList<>();
+        
         solution.add(new Point(0, 0));
         solution.add(new Point(0, 1));
         solution.add(new Point(0, 2));
@@ -121,7 +116,7 @@ public class PuzzleEx extends JFrame {
         solution.add(new Point(3, 1));
         solution.add(new Point(3, 2));
 
-        buttons = new ArrayList();
+        buttons = new ArrayList<>();
 
         panel = new JPanel();
         panel.setBorder(BorderFactory.createLineBorder(Color.gray));
@@ -150,6 +145,7 @@ public class PuzzleEx extends JFrame {
                 image = createImage(new FilteredImageSource(resized.getSource(),
                         new CropImageFilter(j * width / 3, i * height / 4,
                                 (width / 3), height / 4)));
+                
                 MyButton button = new MyButton(image);
                 button.putClientProperty("position", new Point(i, j));
 
@@ -168,7 +164,7 @@ public class PuzzleEx extends JFrame {
         Collections.shuffle(buttons);
         buttons.add(lastButton);
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
 
             MyButton btn = buttons.get(i);
             panel.add(btn);
@@ -177,10 +173,11 @@ public class PuzzleEx extends JFrame {
         }
 
         pack();
+        
         setTitle("Puzzle");
         setResizable(false);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
     private int getNewHeight(int w, int h) {
@@ -192,7 +189,7 @@ public class PuzzleEx extends JFrame {
 
     private BufferedImage loadImage() throws IOException {
 
-        BufferedImage bimg = ImageIO.read(new File("icesid.jpg"));
+        BufferedImage bimg = ImageIO.read(new File("src/resources/icesid.jpg"));
 
         return bimg;
     }
@@ -220,6 +217,7 @@ public class PuzzleEx extends JFrame {
         private void checkButton(ActionEvent e) {
 
             int lidx = 0;
+            
             for (MyButton button : buttons) {
                 if (button.isLastButton()) {
                     lidx = buttons.indexOf(button);
@@ -251,7 +249,7 @@ public class PuzzleEx extends JFrame {
 
     private void checkSolution() {
 
-        ArrayList<Point> current = new ArrayList();
+        List<Point> current = new ArrayList<>();
 
         for (JComponent btn : buttons) {
             current.add((Point) btn.getClientProperty("position"));
@@ -264,6 +262,7 @@ public class PuzzleEx extends JFrame {
     }
 
     public static boolean compareList(List ls1, List ls2) {
+        
         return ls1.toString().contentEquals(ls2.toString());
     }
 
