@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -129,8 +127,8 @@ public class PuzzleEx extends JFrame {
                     BufferedImage.TYPE_INT_ARGB);
 
         } catch (IOException ex) {
-            Logger.getLogger(PuzzleEx.class.getName()).log(
-                    Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Could not load image", "Error", 
+                    JOptionPane.ERROR_MESSAGE);
         }
 
         width = resized.getWidth(null);
