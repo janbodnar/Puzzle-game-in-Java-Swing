@@ -2,3 +2,5 @@
 Sources from the ZetCode's Puzzle game in Java Swing
 
 http://zetcode.com/tutorials/javaswingtutorial/puzzle/
+
+![Puzzle game screenshot](puzzle.png)
