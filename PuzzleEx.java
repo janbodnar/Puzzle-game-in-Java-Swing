@@ -1,9 +1,17 @@
 package com.zetcode;
 
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
@@ -18,15 +26,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 class MyButton extends JButton {
 
@@ -66,7 +65,7 @@ class MyButton extends JButton {
     }
 
     public void setLastButton() {
-        
+
         isLastButton = true;
     }
 
@@ -80,11 +79,11 @@ public class PuzzleEx extends JFrame {
 
     private JPanel panel;
     private BufferedImage source;
-    private BufferedImage resized;    
+    private BufferedImage resized;
     private Image image;
     private MyButton lastButton;
-    private int width, height;    
-    
+    private int width, height;
+
     private List<MyButton> buttons;
     private List<Point> solution;
 
@@ -100,7 +99,7 @@ public class PuzzleEx extends JFrame {
     private void initUI() {
 
         solution = new ArrayList<>();
-        
+
         solution.add(new Point(0, 0));
         solution.add(new Point(0, 1));
         solution.add(new Point(0, 2));
@@ -127,7 +126,7 @@ public class PuzzleEx extends JFrame {
                     BufferedImage.TYPE_INT_ARGB);
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Could not load image", "Error", 
+            JOptionPane.showMessageDialog(this, "Could not load image", "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
 
@@ -143,17 +142,19 @@ public class PuzzleEx extends JFrame {
                 image = createImage(new FilteredImageSource(resized.getSource(),
                         new CropImageFilter(j * width / 3, i * height / 4,
                                 (width / 3), height / 4)));
-                
-                MyButton button = new MyButton(image);
+
+                var button = new MyButton(image);
                 button.putClientProperty("position", new Point(i, j));
 
                 if (i == 3 && j == 2) {
+
                     lastButton = new MyButton();
                     lastButton.setBorderPainted(false);
                     lastButton.setContentAreaFilled(false);
                     lastButton.setLastButton();
                     lastButton.putClientProperty("position", new Point(i, j));
                 } else {
+
                     buttons.add(button);
                 }
             }
@@ -164,14 +165,14 @@ public class PuzzleEx extends JFrame {
 
         for (int i = 0; i < NUMBER_OF_BUTTONS; i++) {
 
-            MyButton btn = buttons.get(i);
+            var btn = buttons.get(i);
             panel.add(btn);
             btn.setBorder(BorderFactory.createLineBorder(Color.gray));
             btn.addActionListener(new ClickAction());
         }
 
         pack();
-        
+
         setTitle("Puzzle");
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -187,16 +188,16 @@ public class PuzzleEx extends JFrame {
 
     private BufferedImage loadImage() throws IOException {
 
-        BufferedImage bimg = ImageIO.read(new File("src/resources/icesid.jpg"));
+        var bimg = ImageIO.read(new File("src/resources/icesid.jpg"));
 
         return bimg;
     }
 
     private BufferedImage resizeImage(BufferedImage originalImage, int width,
-            int height, int type) throws IOException {
+                                      int height, int type) {
 
-        BufferedImage resizedImage = new BufferedImage(width, height, type);
-        Graphics2D g = resizedImage.createGraphics();
+        var resizedImage = new BufferedImage(width, height, type);
+        var g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, width, height, null);
         g.dispose();
 
@@ -215,14 +216,14 @@ public class PuzzleEx extends JFrame {
         private void checkButton(ActionEvent e) {
 
             int lidx = 0;
-            
+
             for (MyButton button : buttons) {
                 if (button.isLastButton()) {
                     lidx = buttons.indexOf(button);
                 }
             }
 
-            JButton button = (JButton) e.getSource();
+            var button = (JButton) e.getSource();
             int bidx = buttons.indexOf(button);
 
             if ((bidx - 1 == lidx) || (bidx + 1 == lidx)
@@ -247,7 +248,7 @@ public class PuzzleEx extends JFrame {
 
     private void checkSolution() {
 
-        List<Point> current = new ArrayList<>();
+        var current = new ArrayList<Point>();
 
         for (JComponent btn : buttons) {
             current.add((Point) btn.getClientProperty("position"));
@@ -260,14 +261,15 @@ public class PuzzleEx extends JFrame {
     }
 
     public static boolean compareList(List ls1, List ls2) {
-        
+
         return ls1.toString().contentEquals(ls2.toString());
     }
 
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {
-            PuzzleEx puzzle = new PuzzleEx();
+
+            var puzzle = new PuzzleEx();
             puzzle.setVisible(true);
         });
     }
